@@ -1,0 +1,50 @@
+{
+  "categories": [
+    {
+      "id": "a6ea",
+      "name": "Family"
+    },
+    {
+      "id": "3afb",
+      "name": "Personal"
+    },
+    {
+      "id": "3d22",
+      "name": "Flex"
+    }
+  ],
+  "income": [
+    {
+      "id": "0102",
+      "amount": "1500000",
+      "source": "Salary",
+      "notes": "",
+      "date": "2026-01-03"
+    },
+    {
+      "amount": "25000",
+      "source": "Gift",
+      "notes": "",
+      "date": "2025-11-06",
+      "id": "366a"
+    }
+  ],
+  "expenses": [
+    {
+      "amount": "75000",
+      "item": "perfume",
+      "category": "Personal",
+      "notes": "Asad",
+      "date": "2025-12-10",
+      "id": "76f4"
+    },
+    {
+      "id": "5bf2",
+      "amount": "2000",
+      "item": "food",
+      "category": "Flex",
+      "notes": "",
+      "date": "2025-08-08"
+    }
+  ]
+}
