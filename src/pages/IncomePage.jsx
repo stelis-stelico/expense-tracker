@@ -46,16 +46,6 @@ export default function IncomePage() {
     setShowModal(true);
   };
 
-  const openEditModal = (income) => {
-    setForm({
-      amount: income.amount,
-      source: income.source,
-      notes: income.notes,
-      date: income.date
-    });
-    setEditingId(income.id);
-    setShowModal(true);
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();

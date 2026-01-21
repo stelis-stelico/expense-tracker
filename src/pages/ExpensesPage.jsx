@@ -11,6 +11,9 @@ export default function ExpensesPage() {
   const [showModal, setShowModal] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [displayedExpenses, setDisplayedExpenses] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
+
 
 
   const filteredExpenses =
@@ -34,9 +37,11 @@ export default function ExpensesPage() {
       const res = await fetch(EXPENSE_API);
       const data = await res.json();
       setExpenses(data);
+      setDisplayedExpenses(data);
     } catch (error) {
       console.error("Failed to fetch expenses:", error);
     }
+    
   };
 
   const fetchCategories = async () => {
@@ -70,17 +75,6 @@ export default function ExpensesPage() {
     setShowModal(true);
   };
 
-  const openEditModal = (expense) => {
-    setForm({
-      amount: expense.amount,
-      item: expense.item,
-      category: expense.category,
-      notes: expense.notes,
-      date: expense.date
-    });
-    setEditingId(expense.id);
-    setShowModal(true);
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -124,6 +118,31 @@ export default function ExpensesPage() {
     }
   };
 
+  const handleSearch = () => {
+  if (!searchValue.trim()) {
+    setDisplayedExpenses(expenses);
+    return;
+  }
+
+  const filtered = expenses.filter((expense) => {
+    return (
+      expense.category === searchValue ||
+      expense.amount.toString() === searchValue ||
+      expense.date === searchValue
+    );
+  });
+
+  setDisplayedExpenses(filtered);
+};
+
+{displayedExpenses.length === 0 && (
+  <p className="text-gray-500 mt-4">
+    No matching transactions found.
+  </p>
+)}
+
+
+
   return (
     <div className="max-w-4xl mx-auto mt-10 bg-white p-6 shadow rounded-xl">
       <h2 className="text-2xl font-bold mb-6">Expenses</h2>
@@ -149,6 +168,35 @@ export default function ExpensesPage() {
             ))}
             </select>
           </div>
+
+          <div className="flex gap-2 mb-4">
+            <input
+            type="text"
+            placeholder="Search by amount, category or date"
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+            className="px-4 py-2 border rounded-lg w-full md:w-1/3"
+            />
+
+            <button
+            onClick={handleSearch}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            >
+            Search
+            </button>
+
+            <button
+              onClick={() => {
+              setSearchValue("");
+              setDisplayedExpenses(expenses);
+              }}
+              className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700"
+              >
+              Reset
+            </button>
+
+          </div>
+
 
           <table className="w-full border-collapse">
             <thead>
@@ -181,7 +229,7 @@ export default function ExpensesPage() {
               }}
               className="text-yellow-600 hover:text-yellow-800"
               title="Edit">
-              ✏️
+              <PencilIcon className="w-5 h-5" />
               </button>
 
                 <button
